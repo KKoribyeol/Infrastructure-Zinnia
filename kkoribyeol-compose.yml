@@ -1,0 +1,24 @@
+version: "3"
+services:
+  nginx:
+    image: "nginx"
+    ports:
+      - "80:80"
+    depends_on:
+      - "kkoribyeol"
+  kkoribyeol:
+    image: "0816jinjin/kkoribyeol"
+    ports:
+      - "6180:6180"
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 20s
+        failure_action: rollback
+    environment:
+      - DATABASE_DRIVER=[데이터베이스-드라이버]
+      - DATABASE_URL=[데이터베이스-URL]
+      - DATABASE_USERNAME=[소중한-데이터베이스-아이디]
+      - DATABASE_PASSWORD=[소중한-데이터베이스-비밀번호]
